@@ -16,6 +16,6 @@ class DefaultTheme {
 
   static const TextConfig smallTextConfig = TextConfig(fontSize: 12.0);
   static const TextConfig regularTextConfig =
-      TextConfig(fontSize: 16.0, color: Color(0xFFFFFFFF));
+      TextConfig(fontSize: 16.0, color: Color(0xFF00AA55));
   static const TextConfig largeTextConfig = TextConfig(fontSize: 20.0);
 }

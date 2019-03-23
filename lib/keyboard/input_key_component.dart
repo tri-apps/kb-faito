@@ -1,25 +1,23 @@
 import 'dart:ui';
 
+import 'package:flame/anchor.dart';
 import 'package:flame/components/component.dart';
 import 'package:flame/components/composed_component.dart';
-import 'package:flame/components/text_component.dart';
 import 'package:flame/components/resizable.dart';
-import 'package:flame/anchor.dart';
-
+import 'package:flame/components/text_component.dart';
 import 'package:kb_faito/theme/default_theme.dart';
 
 class InputKeyComponent extends PositionComponent
     with Resizable, ComposedComponent {
   int _keyCode;
+  double _margin;
 
   InputKeyComponent(Rect rect, double margin, int keyCode) {
     _keyCode = keyCode;
+    _margin = margin;
 
     this.anchor = Anchor.topLeft;
-    this.x = rect.topLeft.dx + (margin * 0.5);
-    this.y = rect.topLeft.dy + (margin * 0.5);
-    this.width = rect.width - margin;
-    this.height = rect.height - margin;
+    this.setByRect(rect);
 
     add(TextComponent(String.fromCharCode(keyCode),
         config: DefaultTheme.regularTextConfig)
@@ -31,7 +29,9 @@ class InputKeyComponent extends PositionComponent
   @override
   void render(Canvas c) {
     prepareCanvas(c);
-    c.drawRect(Rect.fromLTWH(0, 0, this.width, this.height),
+    c.drawRect(
+        Rect.fromLTWH(this._margin, this._margin, this.width - this._margin,
+            this.height - this._margin),
         DefaultTheme.darkBackgroundColor2.paint);
 
     super.render(c);

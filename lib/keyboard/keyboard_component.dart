@@ -1,14 +1,12 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
-
 import 'package:flame/anchor.dart';
 import 'package:flame/components/component.dart';
 import 'package:flame/components/composed_component.dart';
 import 'package:flame/components/resizable.dart';
-
-import 'package:kb_faito/theme/default_theme.dart';
+import 'package:flutter/material.dart';
 import 'package:kb_faito/keyboard/input_key_component.dart';
+import 'package:kb_faito/theme/default_theme.dart';
 
 class KeyboardComponent extends PositionComponent
     with Resizable, ComposedComponent {
@@ -19,6 +17,7 @@ class KeyboardComponent extends PositionComponent
 
   void generateKeys() {
     String qwerty = "qwertyuiop-asdfghjkl-zxcvbnm";
+    double margin = 2.0;
     double keyPosX;
     double keyPosY;
 
@@ -39,7 +38,7 @@ class KeyboardComponent extends PositionComponent
       row.runes.forEach((int rune) {
         keyPosX += keyWidth;
         Rect keyRect = Rect.fromLTWH(keyPosX, keyPosY, keyWidth, keyHeight);
-        add(InputKeyComponent(keyRect, 1.0, rune));
+        add(InputKeyComponent(keyRect, margin, rune));
       });
     }
   }
