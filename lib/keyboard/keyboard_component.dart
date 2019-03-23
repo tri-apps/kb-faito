@@ -10,12 +10,14 @@ import 'package:kb_faito/theme/default_theme.dart';
 
 class KeyboardComponent extends PositionComponent
     with Resizable, ComposedComponent {
+  List<InputKeyComponent> _inputKeys;
+
   KeyboardComponent(double height) {
     this.height = height;
     this.anchor = Anchor.topLeft;
   }
 
-  void generateKeys() {
+  void _generateKeys() {
     String qwerty = "qwertyuiop-asdfghjkl-zxcvbnm";
     double margin = 2.0;
     double keyPosX;
@@ -29,6 +31,7 @@ class KeyboardComponent extends PositionComponent
 
     List<String> rows = qwerty.split("-");
     double keyboardCenterX = this.x + (this.width * 0.5);
+    _inputKeys = List<InputKeyComponent>();
 
     for (int index = 0; index < rows.length; ++index) {
       String row = rows[index];
@@ -38,18 +41,33 @@ class KeyboardComponent extends PositionComponent
       row.runes.forEach((int rune) {
         keyPosX += keyWidth;
         Rect keyRect = Rect.fromLTWH(keyPosX, keyPosY, keyWidth, keyHeight);
-        add(InputKeyComponent(keyRect, margin, rune));
+        InputKeyComponent inputKey = InputKeyComponent(keyRect, margin, rune);
+        add(inputKey);
+        _inputKeys.add(inputKey);
       });
     }
   }
 
+  void onTapUp(TapUpDetails evt) {
+    double localTapX = evt.globalPosition.dx - this.x;
+    double localTapY = evt.globalPosition.dy - this.y;
+    Offset localTapPosition = Offset(localTapX, localTapY);
+
+    _inputKeys.forEach((InputKeyComponent inputKey) {
+      if (inputKey.rect.contains(localTapPosition)) {
+        inputKey.onTapUp();
+      }
+    });
+  }
+
+  // region Inherited Methods
   @override
   void resize(Size screenSize) {
     this.x = 0;
     this.y = screenSize.height - this.height;
     this.width = screenSize.width;
 
-    generateKeys();
+    _generateKeys();
   }
 
   @override
@@ -63,4 +81,5 @@ class KeyboardComponent extends PositionComponent
 
   @override
   void update(double t) {}
+  // endregion
 }
