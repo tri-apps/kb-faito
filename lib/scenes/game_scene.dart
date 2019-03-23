@@ -3,12 +3,11 @@ import 'dart:ui';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 
-import 'package:kb_faito/keyboard/input_keyboard.dart';
+import 'package:kb_faito/theme/default_theme.dart';
+import 'package:kb_faito/keyboard/keyboard_component.dart';
 
-class GameScene extends Game {
+class GameScene extends BaseGame {
   Size screenSize;
-
-  InputKeyboard inputKeyboard;
 
   GameScene() {
     init();
@@ -16,24 +15,24 @@ class GameScene extends Game {
 
   void init() async {
     resize(await Flame.util.initialDimensions());
-    inputKeyboard = InputKeyboard(this);
+    add(KeyboardComponent(this.screenSize.height * 0.3));
   }
 
+  @override
   void render(Canvas canvas) {
     // draw background
     Rect bgRect = Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
-    Paint bgPaint = Paint();
-    bgPaint.color = Color(0xff000033);
-    canvas.drawRect(bgRect, bgPaint);
+    canvas.drawRect(bgRect, DefaultTheme.darkBackgroundColor.paint);
 
-    // draw keyboard
-    inputKeyboard.render(canvas);
+    super.render(canvas);
   }
 
+  @override
   void update(double t) {
-    inputKeyboard.update(t);
+    super.update(t);
   }
 
+  @override
   void resize(Size size) {
     screenSize = size;
     super.resize(size);

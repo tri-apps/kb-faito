@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flame/util.dart';
 import 'package:flutter/services.dart';
-import 'package:kb_faito/game_scene.dart';
+import 'package:kb_faito/scenes/game_scene.dart';
 
 void main() async {
   Util flameUtil = Util();
