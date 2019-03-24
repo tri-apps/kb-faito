@@ -10,6 +10,7 @@ import 'package:kb_faito/theme/default_theme.dart';
 
 class KeyboardComponent extends PositionComponent
     with Resizable, ComposedComponent {
+  Rect rect;
   List<InputKeyComponent> _inputKeys;
 
   KeyboardComponent(double height) {
@@ -49,6 +50,10 @@ class KeyboardComponent extends PositionComponent
   }
 
   void onTapUp(TapUpDetails evt) {
+    if (!this.rect.contains(evt.globalPosition)) {
+      return;
+    }
+
     double localTapX = evt.globalPosition.dx - this.x;
     double localTapY = evt.globalPosition.dy - this.y;
     Offset localTapPosition = Offset(localTapX, localTapY);
@@ -66,6 +71,8 @@ class KeyboardComponent extends PositionComponent
     this.x = 0;
     this.y = screenSize.height - this.height;
     this.width = screenSize.width;
+
+    this.rect = Rect.fromLTWH(this.x, this.y, this.width, this.height);
 
     _generateKeys();
   }
